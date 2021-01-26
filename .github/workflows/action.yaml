@@ -4,7 +4,7 @@ name: build-image
 on: [push, release]
 
 jobs:
-  docker:
+  build:
     runs-on: ubuntu-latest
     steps:
       -
@@ -23,3 +23,18 @@ jobs:
         with:
           push: true
           tags: poquirion/ncov-tools:alpha
+  release:
+          -
+            if: ${{ github.ref == ''ref/head/master' }}
+            needs: build
+            name: Build and push master
+            - run : |
+                    docker tags poquirion/ncov-tools:alpha poquirion/ncov-tools:latest
+                    docker push poquirion/ncov-tools:latest
+          -
+            if: {{github.ref == 'ref/head/v*}}
+            need: build
+            name: push release
+            - run : |
+                    docker tags poquirion/ncov-tools:alpha poquirion/ncov-tools:${GITHUB_REF}
+                    docker push poquirion/ncov-tools:${GITHUB_REF}
