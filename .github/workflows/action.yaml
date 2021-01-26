@@ -1,7 +1,7 @@
+---
 name: build-image
 
-on:[push,tags]
-
+on: [push, tags]
 
 jobs:
   docker:
@@ -31,9 +31,8 @@ jobs:
         with:
           push: true
           tags: poquirion/ncov-tools:latest
-
       -
-        if : {{ github.ref == 'ref/head/v* }}
+        if: {{github.ref == 'ref/head/v*}}
         name: Build and push master
         id: docker_build
         uses: docker/build-push-action@v2
