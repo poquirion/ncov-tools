@@ -24,11 +24,11 @@ jobs:
           push: true
           tags: poquirion/ncov-tools:alpha
   release:
-          - if: ${{ github.ref == ''ref/head/master' }}
+          - if: ${{ github.ref == 'ref/head/master' }}
             run : |
                     docker tags poquirion/ncov-tools:alpha poquirion/ncov-tools:latest
                     docker push poquirion/ncov-tools:latest
-          - if: {{github.ref == 'ref/head/v*}}
+          - if: {{ github.ref == 'ref/head/v*' }}
             run : |
                     docker tags poquirion/ncov-tools:alpha poquirion/ncov-tools:${GITHUB_REF}
                     docker push poquirion/ncov-tools:${GITHUB_REF}
