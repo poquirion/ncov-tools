@@ -39,6 +39,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{ env.GH_REPO }}:${GITHUB_REF}
+          tags: ${{ env.GH_REPO }}:${{ env.GITHUB_REF }}
           cache-from: type=registry,ref=${{ env.GH_REPO }}:alpha
           cache-to: type=inline
