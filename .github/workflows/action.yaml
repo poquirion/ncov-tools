@@ -1,8 +1,12 @@
 ---
 name: build-image
 
-on: [push, release]
-
+on:
+  push:
+    branches:
+      - '**'
+    tags:
+      - 'v*.*.*'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -24,6 +28,13 @@ jobs:
           tags: ${{ env.GH_REPO }}:alpha
           cache-from: type=registry,ref=${{ env.GH_REPO }}:alpha
           cache-to: type=inline
+      -
+        name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ${{ env.GH_REPO }} # list of Docker images to use as base name for tags
+          tag-sha: true # add git short SHA as Docker tag
       - name: push latest
         if: ${{ github.ref == 'ref/head/master' }}
         id: latest
@@ -39,6 +50,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{ env.GH_REPO }}:${{ env.GITHUB_REF }}
           cache-from: type=registry,ref=${{ env.GH_REPO }}:alpha
           cache-to: type=inline
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
