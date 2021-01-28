@@ -15,7 +15,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build on all branch
-        id: docker_build
+        id: alpha
         uses: docker/build-push-action@v2
         with:
           push: true
@@ -24,7 +24,7 @@ jobs:
           cache-to: type=inline
       - name: push latest
         if: ${{ github.ref == 'ref/head/master' }}
-        id: docker_build
+        id: latest
         uses: docker/build-push-action@v2
         with:
           push: true
@@ -33,7 +33,7 @@ jobs:
           cache-to: type=inline
       - name: push tag
         if: ${{ github.ref == 'ref/head/v*' }}
-        id: docker_build
+        id: tag
         uses: docker/build-push-action@v2
         with:
           push: true
