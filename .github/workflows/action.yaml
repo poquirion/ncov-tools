@@ -13,7 +13,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Pull existing image to use as cache
-         run: docker pull poquirion/ncov-tools:alpha
+        run: docker pull poquirion/ncov-tools:alpha
       - name: Build on all branch
         id: docker_build
         uses: docker/build-push-action@v2
